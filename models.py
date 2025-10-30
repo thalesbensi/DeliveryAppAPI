@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, DECIMAL
 from sqlalchemy.orm import declarative_base
-from sqlalchemy_utils import ChoiceType
 
 db = create_engine("sqlite:///database.db")
 
@@ -28,14 +27,14 @@ class User(Base):
 class Order(Base):
     __tablename__ = "orders"
 
-    ORDER_STATUS = (
-        ("PENDING", "PENDING"),
-        ("CANCELED", "CANCELED"),
-        ("COMPLETED", "COMPLETED"),
-    )
+    #ORDER_STATUS = (
+    #    ("PENDING", "PENDING"),
+    #    ("CANCELED", "CANCELED"),
+    #    ("COMPLETED", "COMPLETED"),
+    #)
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
-    status = Column("status", ChoiceType(choices=ORDER_STATUS), nullable=False, default="PENDING")
+    status = Column("status", String, nullable=False, default="PENDING")
     user_id = Column("user_id", Integer, ForeignKey("users.id"), nullable=False)
     price = Column("price", DECIMAL , nullable=False)
 
