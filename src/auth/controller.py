@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from fastapi import APIRouter, Depends
 from src.dependencies.dependencies import get_session
-from src.entities.user import User
+from src.models.user import User
 from src.main import bcrypt_context
 
 auth_controller = APIRouter(prefix="/auth", tags=["Auth"])
