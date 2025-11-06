@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey
 
-from src.database.core import Base
+from src.api.core.database.core import Base
 
 
 class Order(Base):

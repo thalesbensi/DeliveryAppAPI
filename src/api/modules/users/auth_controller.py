@@ -5,12 +5,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from jose import jwt
 from sqlalchemy.orm import Session
 
-from src.dependencies.dependencies import get_session
-from src.models.user import User
+from src.api.common.dependencies.dependencies import get_session
+from src.api.modules.users.model import User
 from src.main import bcrypt_context, ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, ALGORITHM
-from src.schemas.user import UserSchema, LoginSchema
+from src.api.modules.users.schema import UserSchema, LoginSchema
 
-auth_controller = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 def generate_token(user_id):
@@ -20,11 +20,11 @@ def generate_token(user_id):
     return encoded_jwt
 
 
-@auth_controller.get("/", status_code=HTTPStatus.OK)
+@router.get("/", status_code=HTTPStatus.OK)
 async def authenticate():
     return {"message": "Not authenticated", "Autheticate": False}
 
-@auth_controller.post("/register", status_code=HTTPStatus.CREATED)
+@router.post("/register", status_code=HTTPStatus.CREATED)
 async def register(user: UserSchema, session: Session = Depends(get_session)):
     user_to_be_created =  session.query(User).filter(User.email == user.email).first()
     if user_to_be_created:
@@ -36,7 +36,7 @@ async def register(user: UserSchema, session: Session = Depends(get_session)):
         session.commit()
         return {f"message": f"User Created with success {user_to_be_created.email}"}
 
-@auth_controller.post("/login", status_code=HTTPStatus.OK)
+@router.post("/login", status_code=HTTPStatus.OK)
 async def login(login: LoginSchema, session: Session = Depends(get_session)):
     user = session.query(User).filter(User.email == login.email).first()
     if not user:

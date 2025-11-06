@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL
 
-from src.database.core import Base
+from src.api.core.database import Base
 
 
 class Item(Base):

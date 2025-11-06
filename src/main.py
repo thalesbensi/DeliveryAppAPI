@@ -14,8 +14,8 @@ app = FastAPI(title="Delivery App API")
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-from src.api.controllers.auth_controller import auth_controller
-from src.api.controllers.order_controller import order_controller
+from src.api.modules.users.auth_controller import router as auth_router
+from src.api.modules.orders.router import router as order_router
 
-app.include_router(auth_controller)
-app.include_router(order_controller)
+app.include_router(auth_router)
+app.include_router(order_router)
